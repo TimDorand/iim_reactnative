@@ -3,21 +3,25 @@ import { Text, View } from 'react-native';
 import style from './style'
 import { TextInput } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
-
-class InfoScreen extends React.Component {
-  state = {
-    clicked: false,
+function mapStateProps(state) {
+  return {
+      text: state.text
   }
+}
+class InfoScreen extends React.Component {
+  // state = {
+  //   clicked: false,
+  // }
   test = ''
   render() {
-    const {goBack} = this.props.navigation;
     return (
       <View style={styles.container}>
         <Text style={styles.h1}>INFO</Text>
-        <Text>Type your name</Text>
+        <Text>{ this.props.text ? 'Change your name' : 'Type your name'}</Text>
         <TextInput 
           style={styles.input}
           onChangeText={(text) => this.text = text}
+          value={this.props.text}
         ></TextInput>
 
         <Text
@@ -37,4 +41,4 @@ class InfoScreen extends React.Component {
   }
 }
 
-export default connect(undefined)(InfoScreen)
+export default connect(mapStateProps)(InfoScreen)
