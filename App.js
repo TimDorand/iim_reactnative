@@ -4,12 +4,12 @@ import { createStackNavigator, createAppContainer } from 'react-navigation'
 import { createStore, combineReducers } from 'redux';
 import { Provider, connect } from 'react-redux';
 
-import HomeScreen from './Home'
-import InfoScreen from './Info'
+import HomeScreen from './src/home/Home'
+import GameScreen from './src/game/Game'
 
 const MainNavigator = createStackNavigator({
   Home: { screen: HomeScreen },
-  Info: { screen: InfoScreen },
+  Game: { screen: GameScreen },
 })
 
 const Navigation = createAppContainer(MainNavigator);
@@ -22,6 +22,8 @@ function textReducer(state, action) {
   switch (action.type) {
     case 'TEXT':
       return { ...state, text: action.payload }
+    case 'GAMEID':
+      return { ...state, gameID: action.payload }
     default:
       return state;
   }
