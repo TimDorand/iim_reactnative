@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Linking, AsyncStorage} from 'react-native';
 import style from '../assets/style'
 import { TextInput } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
@@ -18,10 +18,17 @@ class GameScreen extends React.Component {
   fetchGame(id) {
     return fetch(`http://androidlessonsapi.herokuapp.com/api/game/details?game_id=${id}`)
   }
+  async storeData() {
+    try {
+      await AsyncStorage.setItem('lastGame', this.state.game.name);
+    } catch (error) {
+      // Error saving data
+    }
+  };
   async componentWillMount() {
     try {
       const game = await this.fetchGame(this.props.gameID)
-      this.setState({ game: JSON.parse(game._bodyInit) }, () => console.log(this.state.game))
+      this.setState({ game: JSON.parse(game._bodyInit)}, async () => await this.storeData())
     } catch (error) {
       this.setState({ error })
     }
@@ -41,7 +48,8 @@ class GameScreen extends React.Component {
               <Text>{this.state.game.description_en}</Text>
             </View>
             <View style={styles.card}>
-              <Text>Open Wikipedia</Text>
+              <Text onPress={ ()=> Linking.openURL(this.state.game.url) } >Open Wikipedia for more info</Text>
+
             </View>
           </View>
           :

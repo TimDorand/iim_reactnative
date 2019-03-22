@@ -24,6 +24,8 @@ function textReducer(state, action) {
       return { ...state, text: action.payload }
     case 'GAMEID':
       return { ...state, gameID: action.payload }
+    case 'GAME':
+      return { ...state, game: action.payload}
     default:
       return state;
   }
